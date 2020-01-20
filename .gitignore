@@ -6,3 +6,6 @@ flaskServer/__pycache__/
 
 # Ignore *.pyc files
 *.pyc
+
+# Ignore .DS_store
+*.DS_store
