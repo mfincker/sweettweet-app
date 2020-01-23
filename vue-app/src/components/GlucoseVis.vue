@@ -24,17 +24,40 @@
 
 		methods: {
 			plotGlucose() {
+			// 	var vlSpec = {
+			// 		$schema: 'https://vega.github.io/schema/vega-lite/v4.json',
+			// 		data: {values: this.$props.glucoseData},
+			// 		width: 'container',
+			// 		mark: 'point',
+			// 		encoding: {
+			// 			y: {field: 'Glucose', type: 'quantitative'},
+			// 			x: {field: 'Timestamp', type: 'temporal',axis: {title: 'Glucose levels'}
+			// 		}
+			// 	}
+			// };
+
 				var vlSpec = {
 					$schema: 'https://vega.github.io/schema/vega-lite/v4.json',
 					data: {values: this.$props.glucoseData},
 					width: 'container',
-					mark: 'point',
-					encoding: {
-						y: {field: 'Glucose', type: 'quantitative'},
-						x: {field: 'Timestamp', type: 'temporal',axis: {title: 'Glucose levels'}
-					}
-				}
-			};
+					layer: [
+					{
+						data: {"values": [{"Glucose": 70}]},
+						mark: 'rule',
+						encoding: {
+							y: {field: 'Glucose', type: 'quantitative'},
+							color: {value: "red"}
+						}
+					},
+					{
+						mark: 'point',
+						encoding: {
+							y: {field: 'Glucose', type: 'quantitative'},
+							x: {field: 'Timestamp', type: 'temporal',axis: {title: 'Glucose levels'}}
+						}
+					},
+					]
+				};
 			// Embed the visualization in the container with id `vis`
 			window.vegaEmbed('#vis', vlSpec);
 		},

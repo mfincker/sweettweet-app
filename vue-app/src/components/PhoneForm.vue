@@ -12,15 +12,15 @@
 					@focus="clearStatus"
 					@keypress="clearStatus"
 					ref="phoneField">
-			<p v-if="error && submitting" class="error-message">❗Please fill out your phone number as 0123456789
+			<p v-if="error && submitting" class="error-message">❗Please fill out your phone number as +10123456789
 			</p>
 			<button>Submit</button>
 		</form>
 		<div v-if="success" 
 				class="success-message">
-		<h2>
+		<h3>
 Sending alerts to {{phoneNumber}}
-  </h2>
+  </h3>
   <button @click="handleChangePhoneNumber">Change phone number</button>
   </div>
 	</div>
@@ -78,7 +78,7 @@ Sending alerts to {{phoneNumber}}
 		},
 		computed: {
 			invalidPhone() {
-				let phoneno = /^\d{10}$/;
+				let phoneno = /^\+\d{11,13}$/;
 				return this.newPhoneNumber.match(phoneno) == null
 			},
 		},
