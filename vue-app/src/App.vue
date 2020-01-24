@@ -2,7 +2,7 @@
   <div id="app">
     <phone-form @add:newPhoneNumber="addPhoneNumber" :phoneNumber="phoneNumber"/>
     <glucose-form @add:newBG="addNewBG" />
-    <glucose-vis :glucoseData="glucoseData"/>
+    <glucose-vis :pastData="pastData" :forecastData="forecastData"/>
   </div>
 </template>
 
@@ -25,8 +25,10 @@ export default {
   data() {
     return {
       phoneNumber: "",
-      glucoseData: [],
+      pastData: [],
+      forecastData: [],
       newBG: "",
+      alarm: 0
     }
   },
 
@@ -47,18 +49,34 @@ export default {
       }
     },
 
-    // POST new BG measurement - returns full live glucoseData + model output - TODO
-    addNewBG() {
-      console.log(this.glucoseData[this.glucoseData.length - 2])
-      console.log(this.glucoseData[this.glucoseData.length - 1])
+    // POST new BG measurement - returns full live glucose data + model output - TODO
+    async addNewBG(newBG) {
+      try {
+        const response = await fetch(base_url + 'api/update-glucose', {
+          method: 'POST',
+          body: JSON.stringify({'newBG' : newBG,
+                                'pastData': this.pastData,
+                                'phoneNumber' : this.phoneNumber,
+                                'alarm' : this.alarm}),
+          headers: {'Content-type' : 'application/json; charset=UTF-8', }
+        })
+        const data = await response.json() // server should return the phone number
+        this.newBG = data.newBG
+        this.pastData = data.pastData
+        this.forecastData = data.forecastData
+        this.alarm = data.alarm
+      } catch(error) {
+        console.error(error)
+      }
     },
 
-    // Get live glucoseData from user session
+    // Get live pastData from user session
     async getGlucoseData() {
       try {
         const response = await fetch(base_url + 'api/glucose-data')
         const data = await response.json()
-        this.glucoseData = data
+        this.pastData = data.pastData
+        this.forecastData = data.forecastData
       } catch(error) {
         console.error(error)
       }

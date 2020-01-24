@@ -9,8 +9,14 @@ from statsmodels.tsa.arima_model import ARIMA
 from math import floor
 import json
 
+df = pd.read_csv('../static/data/past_glucose.csv')
+df.columns = ['x', 'Glucose']
+df['Timestamp'] = pd.date_range(end = pd.Timestamp.now(), periods = df.shape[0], freq = '5 min')
 
-json_data = json.load(open('../static/data/sample_glucose.json'))
+df.to_json('../static/data/past_glucose.json', orient = 'records')
+
+# print(df.head())
+json_data = json.load(open('../static/data/past_glucose.json'))
 
 # print(json_data)
 
@@ -28,7 +34,7 @@ n_forecast = 6
 fc, se, conf= fitted.forecast(n_forecast, alpha = 0.05)
 # index_of_fc = np.arange(len(glucose), len(glucose) + n_periods)
 
-
+# print(fc)
 
 delta = pd.Timedelta('5min')
 fc_Timestamp = pd.date_range(start = df.Timestamp.iloc[-1], periods = 7, freq = '5 min')[1:]
@@ -37,7 +43,7 @@ fc_Timestamp = pd.date_range(start = df.Timestamp.iloc[-1], periods = 7, freq = 
 forecast = pd.DataFrame({'Glucose' : fc,
 						'Timestamp': fc_Timestamp})
 
-forecast_json = forecast.to_json(path_or_buf = None, orient = 'records')
+forecast_json = forecast.to_json(path_or_buf = '../static/data/forecast_glucose.json', orient = 'records')
 print(forecast_json)
 
 # twilio_phone_number = app.config['TWILIO_PHONE_NUMBER']

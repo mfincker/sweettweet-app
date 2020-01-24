@@ -1,6 +1,6 @@
 <!-- Visualize BG data -->
 <!-- Used in Live BG and historical BG (TODO) -->
-<!-- Props: glucoseData -->
+<!-- Props: pastData -->
 
 <template>
 	<div id="vis">
@@ -12,10 +12,11 @@
 		name : 'glucose-vis',
 
 		props: {
-			glucoseData: Array,
+			pastData: Array,
+			forecastData: Array,
 		},
 		watch: {
-			glucoseData: function(newVal) {
+			pastData: function(newVal) {
 				if (newVal.length > 0) {
 					this.plotGlucose()
 				}
@@ -26,7 +27,7 @@
 			plotGlucose() {
 			// 	var vlSpec = {
 			// 		$schema: 'https://vega.github.io/schema/vega-lite/v4.json',
-			// 		data: {values: this.$props.glucoseData},
+			// 		data: {values: this.$props.pastData},
 			// 		width: 'container',
 			// 		mark: 'point',
 			// 		encoding: {
@@ -38,7 +39,7 @@
 
 				var vlSpec = {
 					$schema: 'https://vega.github.io/schema/vega-lite/v4.json',
-					data: {values: this.$props.glucoseData},
+					data: {values: this.$props.pastData},
 					width: 'container',
 					layer: [
 					{
@@ -46,14 +47,27 @@
 						mark: 'rule',
 						encoding: {
 							y: {field: 'Glucose', type: 'quantitative'},
-							color: {value: "red"}
+							color: {value: "red"},
+							size: {value: 1}
 						}
 					},
 					{
 						mark: 'point',
 						encoding: {
 							y: {field: 'Glucose', type: 'quantitative'},
-							x: {field: 'Timestamp', type: 'temporal',axis: {title: 'Glucose levels'}}
+							x: {field: 'Timestamp', type: 'temporal',axis: {title: 'Glucose levels'}},
+							size: {value: 15},
+							color: {value: 'grey'}
+						}
+					},
+					{
+						data: {values: this.$props.forecastData},
+						mark: 'point',
+						encoding: {
+							y: {field: 'Glucose', type: 'quantitative'},
+							x: {field: 'Timestamp', type: 'temporal',axis: {title: 'Glucose levels'}},
+							size: {value: 20},
+							color: {value: 'steelblue'}
 						}
 					},
 					]
