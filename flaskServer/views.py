@@ -147,7 +147,7 @@ def send_alert(phone_number):
 	if phone_number:
 		print("Alert sent")
 
-		message = 'Your blood sugar level are likely to dip below 70 in the next half hour. How about some orange juice?'
+		message = 'Your blood sugar level is likely to dip below 70 in the next half hour. How about some orange juice?'
 
 		twilio_service = TwilioService()
 
