@@ -4,7 +4,7 @@
 <template>
 <div id="glucose-form">
 	<form @submit.prevent="handleSubmit">
-		<label>Enter the next glucose measurement.</label>
+		<label>Enter the next glucose measurement:</label>
 		<input  type="text"
 		:class="{ 'has-error': submitting && invalidBG }"
 		v-model="newBG"

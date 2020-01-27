@@ -18,9 +18,9 @@
 		</form>
 		<div v-if="success" 
 				class="success-message">
-		<h3>
+		<p>
 Sending alerts to {{phoneNumber}}
-  </h3>
+  </p>
   <button @click="handleChangePhoneNumber">Change phone number</button>
   </div>
 	</div>
@@ -86,8 +86,10 @@ Sending alerts to {{phoneNumber}}
 </script>
 
 <style scoped>
+	#phone_form {
+		margin-bottom: 5em;
+	}
   form {
-    margin-bottom: 2rem;
     margin: auto;
     width: 50%;
   }

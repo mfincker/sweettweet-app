@@ -57,28 +57,29 @@ def api_getGlucoseData():
 
     return resp
 
-# Set phone number to which alerts should be sent
-@app.route('/api/change-phone-number', methods = ['POST'])
-def api_changePhoneNumber():
-	# session.phone_number = '' # don't know yet how to save phone number to server
+# Don't need this, because I'm not using sessions at all
+# # Set phone number to which alerts should be sent
+# @app.route('/api/change-phone-number', methods = ['POST'])
+# def api_changePhoneNumber():
+# 	# session.phone_number = '' # don't know yet how to save phone number to server
 
-	# Initialize phone number?
-	# if 'phone_number' not in session.keys():
-	# 	session['phone_number'] = ''
+# 	# Initialize phone number?
+# 	# if 'phone_number' not in session.keys():
+# 	# 	session['phone_number'] = ''
 
-	req_data = request.get_json()
-	# print(req_data)
+# 	req_data = request.get_json()
+# 	# print(req_data)
 
-	# print('old phone number: ' + phone_number + '\n')
-	# session['phone_number'] = req_data['phoneNumber']
-	session['phone_number'] = req_data['phoneNumber']
-	session.modified = True
-	print('new phone number: ' + session['phone_number'] + '\n')
+# 	# print('old phone number: ' + phone_number + '\n')
+# 	# session['phone_number'] = req_data['phoneNumber']
+# 	session['phone_number'] = req_data['phoneNumber']
+# 	session.modified = True
+# 	print('new phone number: ' + session['phone_number'] + '\n')
 
-	resp = jsonify({'phoneNumber' : session['phone_number']})
-	resp.status_code = 200
+# 	resp = jsonify({'phoneNumber' : session['phone_number']})
+# 	resp.status_code = 200
 
-	return resp
+# 	return resp
 
 # @app.route('/send-alert', methods = ['GET'])
 # def private_send_alert():

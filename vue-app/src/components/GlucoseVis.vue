@@ -41,13 +41,14 @@
 					$schema: 'https://vega.github.io/schema/vega-lite/v4.json',
 					data: {values: this.$props.pastData},
 					width: 'container',
+					height: 'container',
 					layer: [
 					{
 						data: {"values": [{"Glucose": 70}]},
 						mark: 'rule',
 						encoding: {
 							y: {field: 'Glucose', type: 'quantitative'},
-							color: {value: "red"},
+							color: {value: "black"},
 							size: {value: 1}
 						}
 					},
@@ -67,7 +68,7 @@
 							y: {field: 'Glucose', type: 'quantitative'},
 							x: {field: 'Timestamp', type: 'temporal',axis: {title: 'Glucose levels'}},
 							size: {value: 20},
-							color: {value: 'steelblue'}
+							color: {value: 'red'}
 						}
 					},
 					]
@@ -84,5 +85,6 @@
 <style scoped>
 	#vis {
 		width: 80%;
+		height: 300px
 	}
 </style>

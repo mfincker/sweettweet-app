@@ -34,19 +34,9 @@ export default {
 
   methods: {
 
-    // POST user phone number
-    async addPhoneNumber(newPhoneNumber) {
-      try {
-        const response = await fetch(base_url + 'api/change-phone-number', {
-          method: 'POST',
-          body: JSON.stringify({'phoneNumber' : newPhoneNumber}),
-          headers: {'Content-type' : 'application/json; charset=UTF-8', }
-        })
-        const data = await response.json() // server should return the phone number
-        this.phoneNumber = data.phoneNumber
-      } catch(error) {
-        console.error(error)
-      }
+    // Update phoneNumber state
+    addPhoneNumber(newPhoneNumber) {
+      this.phoneNumber = newPhoneNumber
     },
 
     // POST new BG measurement - returns full live glucose data + model output - TODO
