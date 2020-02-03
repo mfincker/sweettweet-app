@@ -1,0 +1,209 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "width": 700,
+  "height": 400,
+  "padding": 5,
+  "background": "white",
+
+  "config": {
+    "axisBand": {
+      "bandPosition": 0,
+      "labelPadding": 7,
+      "tickExtra": false
+    }
+  },
+
+  "signals": [
+    {
+      "name": "tipYear",
+      "on": [{
+        "events": "mousemove",
+        "update": "invert('x', x())"
+      }]
+    },
+    {
+      "name": "tipValue",
+      "on": [{
+        "events": "mousemove",
+        "update": "invert('y', y())"
+      }]
+    }
+  ],
+
+  "data": [
+    {
+      "name": "colors",
+      "values" : [{"type" : "measured", "color" : "grey"},
+        {"type" : "forecasted", "color" : "#ea9085"}]
+    },
+    {
+      "name": "budgets",
+      "url": "data/budgets.json",
+      "transform": [
+        {"type": "extent",
+        "field": "budgetYear",
+        "signal": "extent"
+        }
+      ]
+    },
+    {
+      "name": "budgets-actual",
+      "source": "budgets",
+      "transform": [
+        { "type": "filter", "expr": "datum.forecastYear == datum.budgetYear - 1" }
+      ]
+    },
+    {
+      "name": "tooltip",
+      "source": "budgets-actual",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "datum.forecastYear == tipYear && abs(datum.value - tipValue) <= 0.1"
+        },
+        {
+          "type": "aggregate",
+          "fields": ["value", "value"],
+          "ops": ["min", "argmin"],
+          "as": ["min", "argmin"]
+        },
+        { "type": "formula", "as": "tooltipYear", "expr": "datum.argmin.budgetYear" }
+      ]
+    },
+    {
+      "name": "tooltip-forecast",
+      "source": "budgets",
+      "transform": [
+        {
+          "type": "lookup",
+          "from": "tooltip", "key": "tooltipYear",
+          "fields": ["budgetYear"], "as": ["tooltip"]
+        },
+        { "type": "filter", "expr": "datum.tooltip" }
+      ]
+    },
+    {
+      "name": "latest-forecast",
+      "source": "budgets",
+      "transform": [
+        { "type": "filter", "expr": "datum.budgetYear >= extent[1]" }
+      ]
+    }
+  ],
+
+  "scales": [
+    {
+      "name": "x",
+      "type": "band",
+      "domain": {"data": "budgets", "field": "forecastYear"},
+      "range": "width"
+    },
+    {
+      "name": "y",
+      "type": "linear", "zero": true,
+      "domain": {"data": "budgets", "field": "value"},
+      "range": "height"
+    },
+    {
+      "name": "color",
+      "type": "ordinal",
+      "domain": {"data": "colors", "field": "type"},
+      "range": {"data": "colors", "field": "color"}
+    }
+  ],
+
+  "axes": [
+    {
+      "orient": "bottom", "scale": "x",
+      "grid": true, "domain": true,
+      "tickSize": 5, "title": "Time",
+      "encode": {
+        "grid": {
+          "enter": {
+            "stroke": {"value": "#f2f2f2"},
+            "strokeOpacity": {"value": 0.75}
+          }
+        }
+      }
+    },
+    {
+      "orient": "left", "scale": "y",
+      "grid": true, "domain": true,
+      "tickSize": 8, "title" : "Glucose level (mg/dL)",
+      "encode": {
+        "grid": {
+          "enter": {
+            "stroke": {"value": "#f2f2f2"},
+            "strokeOpacity": {"value": 0.75}
+          }
+        }
+      }
+    }
+  ],
+  "legends": [
+    {
+      "stroke": "color",
+      "title": "",
+      "padding": 4,
+      "encode": {
+        "symbols": {
+          "enter": {
+            "strokeWidth": {"value": 2},
+            "size": {"value": 50}
+          }
+        }
+      }
+    }
+  ],
+
+  "marks": [
+    {
+      "type": "rule",
+      "encode": {
+        "enter": {
+          "y": {"scale": "y", "value": 0.5},
+          "stroke": {"value": "#ea9085"},
+          "strokeWidth": {"value": 2},
+          "x": {"scale": "x", "value": 1995},
+          "x2": {"scale" : "x", "value": 2010}
+        }
+      }
+    },
+    {
+      "type": "symbol",
+      "from": {"data": "latest-forecast"},
+      "encode": {
+        "update": {
+          "x": {"scale": "x", "field": "forecastYear"},
+          "y": {"scale": "y", "field": "value"},
+          "stroke": {"value": "#ea9085"},
+          "strokeWidth": {"value": 2}
+        }
+      }
+    },
+    {
+      "type": "symbol",
+      "from": {"data": "tooltip-forecast"},
+      "encode": {
+        "update": {
+          "x": {"scale": "x", "field": "forecastYear"},
+          "y": {"scale": "y", "field": "value"},
+          "stroke": {"value": "#ea9085"},
+          "strokeWidth": {"value": 2}
+        }
+      }
+    },
+    {
+      "type": "symbol",
+      "from": {"data": "budgets-actual"},
+      "encode": {
+        "update": {
+          "x": {"scale": "x", "field": "forecastYear"},
+          "y": {"scale": "y", "field": "value"},
+          "stroke": {"value": "grey"},
+          "strokeWidth": {"value": 2}
+        }
+      }
+    }
+  ]
+}
