@@ -31,60 +31,11 @@
 		methods: {
 			plotGlucose() {
 
-				// var vlSpec = {
-				// 	$schema: 'https://vega.github.io/schema/vega-lite/v4.json',
-				// 	data: {values: this.$props.pastData},
-				// 	width: 'container',
-				// 	height: 'container',
-				// 	layer: [
-				// 	{
-				// 		data: {"values": [{"Glucose": 0}, {'Glucose' : 70}]},
-				// 		mark: 'rect',
-				// 		encoding: {
-				// 			y: {aggregate: 'max', field: 'Glucose', type: 'quantitative'},
-				// 			y2: {aggregate: 'min', field: 'Glucose', type: 'quantitative'},
-				// 			opacity: {value: 0.2},
-				// 			color: {value: "#d45d79"}
-				// 		}
-				// 	},
-				// 	{
-				// 		data: {"values": [{"Glucose": 70}]},
-				// 		mark: 'rule',
-				// 		encoding: {
-				// 			y: {field: 'Glucose', type: 'quantitative'},
-				// 			color: {value: "#d45d79"},
-				// 			size: {value: 1}
-				// 		}
-				// 	},
-				// 	{
-				// 		mark: 'point',
-				// 		encoding: {
-				// 			y: {field: 'Glucose', type: 'quantitative', 
-				// 				axis: {title: 'Glucose (mg/dL)'}},
-				// 			x: {field: 'Timestamp', type: 'temporal',axis: {title: 'Time'}},
-				// 			size: {value: 15},
-				// 			color: {value: 'grey'}
-				// 		}
-				// 	},
-				// 	{
-				// 		data: {values: this.$props.forecastData},
-				// 		mark: {type : 'point', filled : "true"},
-				// 		encoding: {
-				// 			y: {field: 'Glucose', type: 'quantitative'},
-				// 			x: {field: 'Timestamp', type: 'temporal',axis: {title: 'Time'}},
-				// 			size: {value: 45},
-				// 			color: {value: '#ea9085'}
-				// 		}
-				// 	},
-				// 	],
-				// };
-
-
 
 				const vegaSpec = {
   $schema: "https://vega.github.io/schema/vega/v5.json",
   width: 700,
-  height: 400,
+  height: 300,
   padding: 5,
   background: "white",
 
@@ -214,11 +165,24 @@
       orient: "bottom", scale: "x",
       grid: true, domain: true,
       tickSize: 5, title: "Time",
+
       encode: {
         grid: {
           enter: {
             stroke: {value: "#f2f2f2"},
             strokeOpacity: {value: 0.75}
+          }
+        },
+        labels: {
+          enter: {
+            fontSize: {value: 15},
+            dy: {value: 6}
+          }
+        },
+        title: {
+          enter: {
+            fontSize: {value: 18},
+            dy: {value: 5}
           }
         }
       }
@@ -232,6 +196,18 @@
           enter: {
             stroke: {value: "#f2f2f2"},
             strokeOpacity: {value: 0.75}
+          }
+        },
+        labels: {
+          enter: {
+            fontSize: {value: 15},
+            dx: {value: -6}
+          }
+        },
+        title: {
+          enter: {
+            fontSize: {value: 18},
+            dx: {value: -7}
           }
         }
       }
@@ -247,6 +223,16 @@
           enter: {
             strokeWidth: {value: 2},
             size: {value: 50}
+          }
+        },
+        labels: {
+          enter: {
+            fontSize: {value: 15}
+          }
+        },
+        title: {
+          enter: {
+            fontSize: {value: 18}
           }
         }
       }
@@ -334,6 +320,19 @@
           size: {value: 500}
         }
       }
+    },
+    {
+      type: "text",
+      encode: {
+        enter: {
+          x: {value: 500},
+          y : {value: 0},
+          fontSize: {value: 16},
+        },
+        update: {
+          text: {signal: "'Cursor Glucose level: ' + tipValue"}
+        }
+      }
     }
   ]
 }
@@ -351,6 +350,7 @@
 #vis {
 	width: 70%;
 	height: 300px;
+  marig: auto auto;
 }
 #vis-container {
 	padding-bottom: 20px;
