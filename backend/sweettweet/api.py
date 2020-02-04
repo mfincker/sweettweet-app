@@ -39,50 +39,57 @@ def api_getGlucoseData():
 @api.route('/update-glucose/', methods = ['POST'])
 def api_updateGlucose():
 
-	req_data = request.get_json()
-	newBG = req_data['newBG']
-	past_data = req_data['data']
-	past_alarm = req_data['alarm']
-	user_info = req_data['userInfo']
+    req_data = request.get_json()
+    newBG = req_data['newBG']
+    past_data = req_data['data']
+    past_alarm = req_data['alarm']
+    user_info = req_data['userInfo']
 
-	# lstm_model = LstmModel()
+    # lstm_model = LstmModel()
 
-	data, alarm = app.model.forecast(past_data, user_info, newBG)
+    print("hello!")
+    print(app.model)
+    print("hello3!")
 
-	sent_alarm = 0
-	if alarm == 1 and past_alarm == 0:
-		if user_info['phoneNumber']:
-			send_alert(phone_number)
-			sent_alarm = 1
-		else:
-			sent_alarm = 0
+    data, alarm = app.model.forecast(past_data, user_info, newBG)
 
-	resp = jsonify({'data': json.loads(data),
-    				'newBG' : '',
-    				'userInfo' : user_info,
-    				'alarm' : alarm,
-    				'sent_alarm' : sent_alarm})
-	resp.status_code = 200
+    print("hello 2.0!")
 
-	return resp
+    sent_alarm = 0
+    if alarm == 1 and past_alarm == 0:
+        if user_info['phoneNumber']:
+            send_alert(user_info['phoneNumber'])
+            sent_alarm = 1
+        else:
+            sent_alarm = 0
+
+    resp = jsonify({'data': json.loads(data),
+                    'newBG' : '',
+                    'userInfo' : user_info,
+                    'alarm' : alarm,
+                    'sent_alarm' : sent_alarm})
+    resp.status_code = 200
+
+    return resp
 
 
 
 def send_alert(phone_number):
-	'Send SMS alert using Twilio service'
-	if phone_number:
-		print("Alert sent")
+    'Send SMS alert using Twilio service'
+    if phone_number:
+        print("Alert sent")
 
-		message = 'Your blood sugar level is likely to dip below 70 in the next half hour. How about some orange juice?'
+        message = 'Your blood sugar level is likely to dip below 70 in the next half hour. How about some orange juice?'
 
-		twilio_service = TwilioService()
+        twilio_service = TwilioService()
 
-		try:
-			twilio_service.send_message(message, phone_number)
-			
-		except TwilioRestException as e:
-			print(e)
-			# flash('Oops! There was an error. Please try again.', 'danger')
-	else:
-		print("No alert sent - missing phone number")
+        try:
+            twilio_service.send_message(message, phone_number)
+            
+        except TwilioRestException as e:
+            print(e)
+            # flash('Oops! There was an error. Please try again.', 'danger')
+    else:
+        print("No alert sent - missing phone number")
+
 
