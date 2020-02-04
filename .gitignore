@@ -9,3 +9,6 @@ flaskServer/__pycache__/
 
 # Ignore .DS_store
 *.DS_store
+
+node_modules/
+dist/
