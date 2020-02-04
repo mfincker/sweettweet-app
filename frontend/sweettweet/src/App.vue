@@ -23,7 +23,7 @@ import UserForm from '@/components/UserForm.vue'
 
 // Change base_url when deployed - Flask server base_url
 // const base_url = 'http://127.0.0.1:5000/'
-const base_url = 'http://sweettweet.me:5000/'
+const base_url = 'http://sweettweet.me/'
 
 export default {
   name: 'app',
