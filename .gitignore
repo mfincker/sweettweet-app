@@ -10,5 +10,6 @@ flaskServer/__pycache__/
 # Ignore .DS_store
 *.DS_store
 
-node_modules/
+/node_modules/
 dist/
+frontend/sweettweet/node_modules/
