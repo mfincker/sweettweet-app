@@ -16,8 +16,6 @@
 		name : 'glucose-vis',
 
 		props: {
-			pastData: Array,
-			forecastData: Array,
 			data: Array
 		},
 		watch: {
