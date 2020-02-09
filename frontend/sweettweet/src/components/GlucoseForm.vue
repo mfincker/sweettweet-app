@@ -20,6 +20,8 @@
 		<p v-if="error && submitting" class="error-message"> Please, enter a valid glucose measurement between 10 and 600.
 		</p>
 		</div>
+		<p v-if="alarm == 1" class="important"> You're likely to dip below 70 mg/dL in the next 30min. How about some orange juice?
+		</p>
 	</form>
 </div>
 </template>
@@ -32,8 +34,11 @@
 				submitting : false,
 				error : false,
 				success: false,
-				newBG : '',
+				newBG : ''
 			}
+		},
+		props: {
+			alarm: Number
 		},
 		methods: {
 			handleSubmit() {
@@ -85,5 +90,8 @@ input[type=number] {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
+}
+.important {
+	color: #eb4034;
 }
 </style>

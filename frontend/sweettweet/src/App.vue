@@ -1,11 +1,11 @@
 <template>
   <div id="app">
     <div id='banner'>
-      <h1><img src="../public/untitled.svg" alt='sweettweet logo' id="logo">SweetTweet</h1>
+      <h1><img src="../public/sweettweet.svg" alt='sweettweet logo' id="logo">SweetTweet</h1>
       <p>Helping you prevent hypoglycemia</p>
     </div>
     <user-form @add:userInfo="setUserInfo" />
-    <glucose-form @add:newBG="addNewBG" v-if="full_user_info"/>
+    <glucose-form @add:newBG="addNewBG" v-if="full_user_info" :alarm="alarm"/>
     <glucose-vis :data="data" v-if="full_user_info"/>
 
     <footer>
