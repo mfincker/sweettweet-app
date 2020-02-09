@@ -1,17 +1,19 @@
 <template>
   <div id="app">
     <div id='banner'>
-      <h1>SweetTweet</h1>
+      <h1><img src="../public/untitled.svg" alt='sweettweet logo' id="logo">SweetTweet</h1>
       <p>Helping you prevent hypoglycemia</p>
     </div>
     <user-form @add:userInfo="setUserInfo" />
-    <glucose-form @add:newBG="addNewBG" />
-    <glucose-vis :data="data"/>
+    <glucose-form @add:newBG="addNewBG" v-if="full_user_info"/>
+    <glucose-vis :data="data" v-if="full_user_info"/>
 
     <footer>
       <span>&copy; Maeva Fincker - 2020</span>
       <br>
       Developped with Flask and Vue.js
+      <br>
+      Logo adapted from <a href="https://www.svgrepo.com/svg/3466/hummingbird">here</a>
     </footer>
   </div>
 </template>
@@ -39,6 +41,7 @@ export default {
       alarm: 0,
       userInfo: {},
       data: [],
+      full_user_info: false
     }
   },
 
@@ -49,6 +52,8 @@ export default {
       this.userInfo = userInfo
       this.userInfo.height = this.userInfo.feet * 0.3048 + this.userInfo.inch * 0.0254
       this.userInfo.bmi = this.userInfo.weight * 0.453 / (this.userInfo.height * this.userInfo.height)
+      this.full_user_info = true
+      this.getGlucoseData()
     },
 
     // POST new BG measurement - returns full live glucose data + model output - TODO
@@ -110,13 +115,17 @@ footer {
 footer > span {
   font-size: 10pt;
 }
+footer > a, footer > a:hover {
+  color: white;
+  text-decoration: none;
+}
 #banner {
   color: white;
   background-color: #6e5773;
   padding: 10px 0px;
 }
 
-#banner > h1 {
+h1 {
   color: white;
   font-size: 50pt;
   margin-bottom: 0px;
@@ -127,6 +136,11 @@ footer > span {
 button {
   background-color: #d45d79;
   border: 1px solid #d45d79;
+}
+
+#logo {
+  width: 80px;
+  height: 80px;
 }
 
 button:hover {

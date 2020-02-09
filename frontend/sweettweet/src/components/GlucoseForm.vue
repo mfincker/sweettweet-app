@@ -4,7 +4,9 @@
 <template>
 <div id="glucose-form">
 	<h3>Glucose levels</h3>
-	<p></p>
+	<p>The interactive plot below shows you the past 12h of glucose levels and the predicted levels for the next 30 min. Hover over a point to compare past predictions and measured glucose levels.</p>
+
+	<p>SweetTweet can also analyze new measurement, predict your levels for the next 30 min and warn you in case of impending hypoglycemia.</p>
 	<form @submit.prevent="handleSubmit">
 		<label>Enter your next glucose measurement:</label>
 		<div id="glucose">

@@ -79,13 +79,14 @@
 
 			<div class='field'>
 				<label>What is your phone number?</label>
-				SweetTweet can send you SMS alerts when you're about to be low.
+				You don't have to provide a phone number but if you do, <br>SweetTweet will send you SMS alerts when you're about to be low.
 				<input id="pnum" class='number' type="number" name="p-num" value="" v-model="userInfo.phoneNumber">
 
 
 			</div>
 
 			<button v-if="show_user_info" @click="handleSubmit">Submit</button>
+			<p v-if="missing_data" class="important">{{message}}</p>
 		</div>
 
 
@@ -97,22 +98,30 @@
 		name : 'user-form',
 		data() {
 			return {
-				userInfo: {gender: 'F',
-							age: '30',
-							feet: 5,
-							inch: 6,
-							weight: '130',
-							insulinDelivery: 'injection',
+				userInfo: {gender: '',
+							age: '',
+							feet: 0,
+							inch: 0,
+							weight: '',
+							insulinDelivery: '',
 							phoneNumber: ''
 							},
 				show_user_info: true,
+				missing_data: false
 			}
 		},
 
 		methods: {
 			handleSubmit() {
-				this.$emit('add:userInfo', this.userInfo)
-				this.toggleUserInfo()
+
+				if (this.message.length == 'Please, provide the following required user information.'.length) {
+					this.$emit('add:userInfo', this.userInfo)
+					this.toggleUserInfo()
+					this.missing_data = false
+				} else {
+					this.missing_data = true
+				}
+				
 			},
 			toggleUserInfo() {
 				this.show_user_info = !this.show_user_info
@@ -126,7 +135,7 @@
 				return this.userInfo.age == ''
 			},
 			weight_is_empty() {
-				return this.userInfo.weight == 0
+				return this.userInfo.weight == ''
 			},
 			height_is_empty() {
 				return this.userInfo.feet == 0
@@ -136,12 +145,36 @@
 			},
 			phoneNumber_is_empty() {
 				return this.userInfo.phoneNumber != ''
+			},
+			message() {
+				let message =  'Please, provide the following required user information: '
+
+				if (this.gender_is_empty) {
+					message = message +  'gender, '
+				}
+				if (this.age_is_empty) {
+					message = message +  'age, '
+				}
+				if (this.height_is_empty) {
+					message = message +  'height, '
+				}
+				if (this.weight_is_empty) {
+					message = message +  'weight, '
+				}
+				if (this.insulin_delivery_is_empty) {
+					message = message +  'insulin delivery system, '
+				}
+				message = message.substring(0, message.length - 2) + "."
+				return message
 			}
 		},
 	}
 </script>
 
 <style scoped>
+.important {
+	color: #eb4034;
+}
 #user-form {
 	padding: 5px 0px 10px 0px;
 	background-color: #f2f2f2;

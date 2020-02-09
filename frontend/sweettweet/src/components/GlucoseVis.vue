@@ -325,12 +325,14 @@
       type: "text",
       encode: {
         enter: {
-          x: {value: 500},
-          y : {value: 0},
           fontSize: {value: 16},
         },
         update: {
-          text: {signal: "'Cursor Glucose level: ' + tipValue"}
+          x: {scale: 'x', signal: 'tipYear'},
+          y : {scale: 'y', signal: 'tipValue'},
+          dy: {value: -30},
+          dx: {value: -20},
+          text: {signal: "tipValue"}
         }
       }
     }
