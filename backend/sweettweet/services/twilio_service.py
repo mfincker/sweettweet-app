@@ -1,7 +1,20 @@
+"""
+twilio_service.py
+- Twilio class to send SMS
+"""
+
+
 from flask import current_app as app
 from twilio.rest import Client
 
 class TwilioService:
+    '''
+    Twilio service client to send sms alert.
+    Initialize from app config attirbutes: TWILIO_SID, TWILIO_TOKEN 
+    and TWILIO_PHONE_NUMEBR
+
+    Implement a single function `send_message` to send sms.
+    '''
     client = None
 
     def __init__(self):
