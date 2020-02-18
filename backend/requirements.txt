@@ -1,0 +1,10 @@
+wrapt==1.11.2
+h5py
+tensorflow==1.14.0
+Keras==2.2.5
+Flask
+Flask-Cors
+twilio
+pandas
+
+
