@@ -1,20 +1,23 @@
 # ![GitHub Logo](frontend/sweettweet/public/favicon.ico) SweetTweet
 *Helping you prevent hypoglycemia - [sweettweet.me](http://sweettweet.me)*
 
-
+&nbsp;
+&nbsp;
 
 SweetTweet is a predictive tool to help diabetic people who wear a continous glucose monitor (CGM) prevent hypoglycemic events (blood glucose level < 70 mg/dL). SweetTweet uses user demographic information and CGM measurements to forecast a user's blood glucose level for the next 30min. In addition, SweetTweet can directly send SMS alerts to a user if a phone number is provided.
 
 Built to be as unobstrusive as possible and to provide predictive power in a passive way for the user, __SweetTweet API__ can be directly integrated into current CGM app to provide predictive alarm functionality without any additional input from the user. User data sent to the API are never stored and only used for alarm and glucose level prediction. See the [API documentation](#sweettweet-api) below for a description on how to use it.
 
-In addition, the __SweetTweet.me web application__ lets a user visualize their glucose levels and the model predictions across time. Currently, the web app display 12h of glucose level and a user can manually enter new glucose measurements to see how glucose levels are expected to change in the next 30 mins.
+In addition, the __SweetTweet.me web application__ lets a user visualize their glucose levels and the model predictions across time. Currently, the web app display 12h of glucose level and a user can manually enter new glucose measurements to see how glucose levels are expected to change in the next 30 mins. See [below](#sweettweet-web-app) for a more in depth description of the web app.
+
+If you are interested in deploying either the web app or the Flask API on your own server, jump to the [development section](#development).
 
 Currently, SweetTweet predictive models assume a blood glucose level sampling period of 5 mins and therefore will assume that any new measurement entered manually in the web app happens 5 min after the last time point available. Although it is possible for the predictive models to work with different sampling frequencies and missing data, additional work is required and we unfortunately do not support these types of data at this time.
-
+&nbsp;
 
 ## SweetTweet API
 
-The predictive functionalities of SweetTweet are accessible via a single call to the following API, implemented with Flask:
+The predictive functionalities of SweetTweet are accessible via a single call to the following API, currently implemented with [Flask](https://flask.palletsprojects.com/en/1.1.x/) and deployed on [EC2](https://aws.amazon.com/ec2/):
 
 ```
 swweettweet.me/api/forecast-glucose/
@@ -57,49 +60,71 @@ The POST request JSON object requiring the following fields:
 
 The JSON object returned by the server is very similar to the request object. The only differences are:
 
-* It contains a binary field: `sent_alarm`, which takes the value 1 if an SMS alert was sent and 0 otherwise.
+* It contains a new binary field: `sent_alarm`, which takes the value 1 if an SMS alert was sent and 0 otherwise.
 * The `data` array now contains 7 new objects for the measurement and predictions at the new time point.
 * The `data` array does not contain the 7 objects corresponding to the earliest time point anymore (to keep only 145 time points, i.e. 12 h of measurements).
 * `newBG` field value is reset to `''`.
 
+&nbsp;
+&nbsp;
+&nbsp;
 
+*A second route `api/get-glucose/` exists to populate the glucose visualization tool in the web app when loaded but is not used for prediction.*
 
+&nbsp;
 
+## SweetTweet web app
 
-A second route `api/get-glucose/` exists to populate the glucose visualization tool in the web app when loaded.
+The web app is built to let a user interact with the Flask API and visualize the model prediction given past glucose data. It is built in [Vue.js](https://vuejs.org/) and uses [Vega](https://vega.github.io/vega/) for the interactive glucose level exploration tool.
+&nbsp;
 
+## Development
 
+Interested in expanding SweetTweet? 
 
+SweetTweet is built using Python>3.6, Flask and Vue.js. 
 
-To run the back-end Flask development server on Port 5000, use:
+### Back-end Flask API server
+
+You can install the Flask API requirements with:
+
 ```
-./run.py
+pip install -r backend/requirements.txt
+```
+
+To run the Flask API development server on Port 5000, use:
+
+```
+cd backend
+./appserver.py
 ````
 
-To run the front-end Vue development server on Port 8080, use:
+### Vue.js web app
+
+Install the front-end required packages with:
+
 ```
-cd vue-app
+cd frontend/sweettweet
+npm install
+```
+
+To run the front-end Vue development server:
+
+```
 npm run serve
 ```
 
-This repository is under active development.
+To build for production:
+
+```
+npm run build
+```
+
+### Considerations before deployment
+
+A few variables need to be set up for the SMS alert system to work. You will need a Twilio account and Twilio phone number.
+In the `backend/sweettweet/config.py`, enter your Twilio SID, TOKEN and PHONE_NUMBER.
+
+Finally, you will need to update the server `base_url` in `frontend/sweettweet/src/App.vue` to send your request to your own Flask server.
 
 
-Set up:
- 
-Add Twilio SID, TOKEN and PHONE_NUMBER in `config.py` to set up Twilio SMS alerts.
-
-
-static folder:
-- 12 h of glucose
-- Lstm model
-- RF model
-
-
-services:
-- LSTM: user info must contain gender, insulin, bmi and age
-
-
-Vue app:
-
-App.vue : change base_url before deployment to Flask server base_url
