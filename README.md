@@ -1,18 +1,18 @@
-# ![GitHub Logo](frontend/sweettweet/public/favicon.ico) SweetTweet API + Vue.js app
-### *Helping you prevent hypoglycemia*
+# ![GitHub Logo](frontend/sweettweet/public/favicon.ico) SweetTweet
+*Helping you prevent hypoglycemia - (sweettweet.me)[http://sweettweet.me]*
 
-## Try it at (sweettweet.me)[htp://sweettweet.me]
+
 
 SweetTweet is a predictive tool to help diabetic people who wear a continous glucose monitor (CGM) prevent hypoglycemic events (blood glucose level < 70 mg/dL). SweetTweet uses user demographic information and CGM measurements to forecast a user's blood glucose level for the next 30min. In addition, SweetTweet can directly send SMS alerts to a user if a phone number is provided.
 
-Built to be as unobstrusive as possible and to provide predictive power in a passive way for the user, __SweetTweet API__ can be directly integrated into current CGM app to provide predictive alarm functionality without any additional input from the user. User data sent to the API are never stored and only used for alarm and glucose level prediction. See (API documentation)[#1] below for a description on how to use it.
+Built to be as unobstrusive as possible and to provide predictive power in a passive way for the user, __SweetTweet API__ can be directly integrated into current CGM app to provide predictive alarm functionality without any additional input from the user. User data sent to the API are never stored and only used for alarm and glucose level prediction. See [API documentation](#api) below for a description on how to use it.
 
 In addition, the __SweetTweet.me web application__ lets a user visualize their glucose levels and the SweetTweet model predictions across time. Currently, the web app display 12h of glucose level and a user can manually enter new glucose measurements to see how glucose levels are expected to change in the next 30 mins.
 
 Currently, SweetTweet predictive models assume a blood glucose level sampling period of 5min and therefore will assume that any new measurement entered manually in the web app happens 5 min after the last time point available. Although it is possible for the predictive models to work with different sampling frequencies and missing data, additional work is required and we unfortunately do not support these types of data at this time.
 
 
-## SweetTweet API
+## (SweetTweet API)[#api]
 
 The predictive functionalities of SweetTweet are accessible via a single call to the following API, implemented with Flask:
 
