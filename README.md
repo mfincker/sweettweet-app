@@ -8,11 +8,12 @@ SweetTweet is a predictive tool to help diabetic people who wear a continous glu
 
 Built to be as unobstrusive as possible and to provide predictive power in a passive way for the user, __SweetTweet API__ can be directly integrated into current CGM app to provide predictive alarm functionality without any additional input from the user. User data sent to the API are never stored and only used for alarm and glucose level prediction. See the [API documentation](#sweettweet-api) below for a description on how to use it.
 
-In addition, the __SweetTweet.me web application__ lets a user visualize their glucose levels and the model predictions across time. Currently, the web app display 12h of glucose level and a user can manually enter new glucose measurements to see how glucose levels are expected to change in the next 30 mins. See [below](#sweettweet-web-app) for a more in depth description of the web app.
+In addition, the __[SweetTweet.me web application](http://sweettweet.me)__ lets a user visualize their glucose levels and the model predictions across time. Currently, the web app display 12h of glucose level and a user can manually enter new glucose measurements to see how glucose levels are expected to change in the next 30 mins. See [below](#sweettweet-web-app) for a more in depth description of the web app.
 
 If you are interested in deploying either the web app or the Flask API on your own server, jump to the [development section](#development).
 
 SweetTweet predictive power comes from two models: an LSTM neural network forecasts the glucose levels for the next 30 mins and Random Forest classifier decides whether to send an hypoglycemia alarm. If you want to learn more about the development of these models, head on to the __[SweetTweet models repository](https://github.com/mfincker/sweetweet_analysis)__.
+
 Currently, SweetTweet predictive models assume a blood glucose level sampling period of 5 mins and therefore will assume that any new measurement entered manually in the web app happens 5 min after the last time point available. Although it is possible for the predictive models to work with different sampling frequencies and missing data, additional work is required and we unfortunately do not support these types of data at this time.
 &nbsp;
 
