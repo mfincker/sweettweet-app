@@ -24,7 +24,6 @@ import GlucoseForm from '@/components/GlucoseForm.vue'
 import UserForm from '@/components/UserForm.vue'
 
 // Change base_url when deployed - Flask server base_url
-// const base_url = 'http://sweettweet.me/'
 const base_url = 'http://0.0.0.0:5000/'
 
 export default {
