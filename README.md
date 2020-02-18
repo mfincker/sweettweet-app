@@ -12,7 +12,7 @@ In addition, the __[SweetTweet.me web application](http://sweettweet.me)__ lets 
 
 If you are interested in deploying either the web app or the Flask API on your own server, jump to the [development section](#development).
 
-SweetTweet predictive power comes from two models: an LSTM neural network forecasts the glucose levels for the next 30 mins and Random Forest classifier decides whether to send an hypoglycemia alarm. If you want to learn more about the development of these models, head on to the __[SweetTweet models repository](https://github.com/mfincker/sweetweet_analysis)__.
+SweetTweet predictive power comes from two models: an LSTM neural network forecasts the glucose levels for the next 30 mins and Random Forest classifier decides whether to send an hypoglycemia alarm. If you want to learn more about the development of these models, head over to the __[SweetTweet models repository](https://github.com/mfincker/sweetweet_analysis)__.
 
 Currently, SweetTweet predictive models assume a blood glucose level sampling period of 5 mins and therefore will assume that any new measurement entered manually in the web app happens 5 min after the last time point available. Although it is possible for the predictive models to work with different sampling frequencies and missing data, additional work is required and we unfortunately do not support these types of data at this time.
 &nbsp;
