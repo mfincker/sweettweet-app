@@ -1,5 +1,5 @@
 <!-- Form to add/update user info -->
-<!-- age, gender, height, weight, insulinDelivery -->
+<!-- age, gender, height, weight, insulinDelivery, phoneNumber -->
 
 
 <template>
@@ -113,7 +113,7 @@
 
 		methods: {
 			handleSubmit() {
-
+				// check if any required info is missing
 				if (this.message.length == 'Please, provide the following required user information.'.length) {
 					this.$emit('add:userInfo', this.userInfo)
 					this.toggleUserInfo()

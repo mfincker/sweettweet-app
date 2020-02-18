@@ -1,3 +1,5 @@
+// Initialize Vue app in the #app div
+
 import Vue from 'vue'
 import App from './App.vue'
 

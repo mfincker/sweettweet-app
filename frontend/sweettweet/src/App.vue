@@ -24,7 +24,6 @@ import GlucoseForm from '@/components/GlucoseForm.vue'
 import UserForm from '@/components/UserForm.vue'
 
 // Change base_url when deployed - Flask server base_url
-// const base_url = 'http://127.0.0.1:5000/'
 const base_url = 'http://sweettweet.me/'
 
 export default {
@@ -47,7 +46,7 @@ export default {
 
   methods: {
 
-
+    // Update userInfo object from UserForm
     setUserInfo(userInfo) {
       this.userInfo = userInfo
       this.userInfo.height = this.userInfo.feet * 0.3048 + this.userInfo.inch * 0.0254
@@ -56,7 +55,7 @@ export default {
       this.getGlucoseData()
     },
 
-    // POST new BG measurement - returns full live glucose data + model output - TODO
+    // POST new glucose measurement - returns past + predicted glucose level
     async addNewBG(newBG) {
       try {
         const response = await fetch(base_url + 'api/update-glucose/', {
@@ -77,7 +76,7 @@ export default {
       }
     },
 
-    // Get live pastData from user session
+    // Get glucose pastData to initialize glucose-vis
     async getGlucoseData() {
       try {
         const response = await fetch(base_url + 'api/glucose-data/')
@@ -92,7 +91,7 @@ export default {
   },
 
   mounted() {
-    // TODO: initialize user session on server
+    // Initialize glucose data from server on mount
     this.getGlucoseData()
   },
 }

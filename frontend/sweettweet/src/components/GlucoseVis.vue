@@ -1,6 +1,6 @@
 <!-- Visualize BG data -->
-<!-- Used in Live BG and historical BG (TODO) -->
-<!-- Props: pastData -->
+<!-- Visualize glucose and predicted glucose data -->
+<!-- Props: data - updated after each glucose-form submission -->
 
 <template>
 	<div id='vis-container'>
@@ -29,7 +29,7 @@
 		methods: {
 			plotGlucose() {
 
-
+        // Vega plot specification
 				const vegaSpec = {
   $schema: "https://vega.github.io/schema/vega/v5.json",
   width: 700,

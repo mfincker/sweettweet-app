@@ -1,28 +1,33 @@
-<!-- Form to add new BG measurement -->
+<!-- Form to add new glucose measurement -->
 <!-- emit: add:newBG -->
 
 <template>
 <div id="glucose-form">
+
 	<h3>Glucose levels</h3>
+
 	<p>The interactive plot below shows you the past 12h of glucose levels and the predicted levels for the next 30 min. Hover over a point to compare past predictions and measured glucose levels.</p>
 
 	<p>SweetTweet can also analyze new measurement, predict your levels for the next 30 min and warn you in case of impending hypoglycemia.</p>
+
 	<form @submit.prevent="handleSubmit">
 		<label>Enter your next glucose measurement:</label>
 		<div id="glucose">
-		<input  type="number" min="10" max="600"
-		:class="{ 'has-error': submitting && invalidBG }"
-		v-model="newBG"
-		@focus="clearStatus"
-		@keypress="clearStatus"
-		ref="glucoseField">
-		<button>Submit</button>
-		<p v-if="error && submitting" class="error-message"> Please, enter a valid glucose measurement between 10 and 600.
-		</p>
+			<input  type="number" min="10" max="600"
+			:class="{ 'has-error': submitting && invalidBG }"
+			v-model="newBG"
+			@focus="clearStatus"
+			@keypress="clearStatus"
+			ref="glucoseField">
+			<button>Submit</button>
+			<p v-if="error && submitting" class="error-message"> Please, enter a valid glucose measurement between 10 and 600.
+			</p>
 		</div>
+
 		<p v-if="alarm == 1" class="important"> You're likely to dip below 70 mg/dL in the next 30min. How about some orange juice?
 		</p>
 	</form>
+
 </div>
 </template>
 
@@ -41,6 +46,7 @@
 			alarm: Number
 		},
 		methods: {
+			// Set new glucose measurement
 			handleSubmit() {
 				this.submitting = true
 				this.clearStatus()
