@@ -5,11 +5,11 @@
 
 SweetTweet is a predictive tool to help diabetic people who wear a continous glucose monitor (CGM) prevent hypoglycemic events (blood glucose level < 70 mg/dL). SweetTweet uses user demographic information and CGM measurements to forecast a user's blood glucose level for the next 30min. In addition, SweetTweet can directly send SMS alerts to a user if a phone number is provided.
 
-Built to be as unobstrusive as possible and to provide predictive power in a passive way for the user, __SweetTweet API__ can be directly integrated into current CGM app to provide predictive alarm functionality without any additional input from the user. User data sent to the API are never stored and only used for alarm and glucose level prediction. See [API documentation](#sweettweet-api) below for a description on how to use it.
+Built to be as unobstrusive as possible and to provide predictive power in a passive way for the user, __SweetTweet API__ can be directly integrated into current CGM app to provide predictive alarm functionality without any additional input from the user. User data sent to the API are never stored and only used for alarm and glucose level prediction. See the [API documentation](#sweettweet-api) below for a description on how to use it.
 
-In addition, the __SweetTweet.me web application__ lets a user visualize their glucose levels and the SweetTweet model predictions across time. Currently, the web app display 12h of glucose level and a user can manually enter new glucose measurements to see how glucose levels are expected to change in the next 30 mins.
+In addition, the __SweetTweet.me web application__ lets a user visualize their glucose levels and the model predictions across time. Currently, the web app display 12h of glucose level and a user can manually enter new glucose measurements to see how glucose levels are expected to change in the next 30 mins.
 
-Currently, SweetTweet predictive models assume a blood glucose level sampling period of 5min and therefore will assume that any new measurement entered manually in the web app happens 5 min after the last time point available. Although it is possible for the predictive models to work with different sampling frequencies and missing data, additional work is required and we unfortunately do not support these types of data at this time.
+Currently, SweetTweet predictive models assume a blood glucose level sampling period of 5 mins and therefore will assume that any new measurement entered manually in the web app happens 5 min after the last time point available. Although it is possible for the predictive models to work with different sampling frequencies and missing data, additional work is required and we unfortunately do not support these types of data at this time.
 
 
 ## SweetTweet API
@@ -23,6 +23,7 @@ swweettweet.me/api/forecast-glucose/
 This route receives a POST request containing a JSON object combining the CGM data and user information needed to make a prediction and similarly returns a JSON object containing predicted and past CGM data, user information and alarm variables indicating if the model predicts an impending hypoglycemic event as well as whether an SMS alert was sent.
 
 ### Fields in the POST request JSON object
+
 The POST request JSON object requiring the following fields:
 
 ```
@@ -52,9 +53,14 @@ The POST request JSON object requiring the following fields:
 * A `phoneNumber` field can be provided in the `unserInfo` object if a user wants to receive an SMS alert in case impending hypolycemic event.
 
 
+### API response object
 
+The JSON object returned by the server is very similar to the request object. The only differences are:
 
-
+* It contains a binary field: `sent_alarm`, which takes the value 1 if an SMS alert was sent and 0 otherwise.
+* The `data` array now contains 7 new objects for the measurement and predictions at the new time point.
+* The `data` array does not contain the 7 objects corresponding to the earliest time point anymore (to keep only 145 time points, i.e. 12 h of measurements).
+* `newBG` field value is reset to `''`.
 
 
 
