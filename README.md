@@ -1,5 +1,5 @@
 # ![GitHub Logo](frontend/sweettweet/public/favicon.ico) SweetTweet
-*Helping you prevent hypoglycemia - [sweettweet.me](http://sweettweet.me)*
+> *Helping you prevent hypoglycemia - [sweettweet.me](http://sweettweet.me)*
 
 &nbsp;
 &nbsp;
