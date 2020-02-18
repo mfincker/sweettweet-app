@@ -5,7 +5,6 @@ utils.py
 
 from keras import backend as K
 import numpy as np
-import altair as alt
 import pandas as pd
 
 
