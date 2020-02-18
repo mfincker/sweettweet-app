@@ -86,9 +86,11 @@ SweetTweet is built using Python>3.6, Flask and Vue.js.
 
 ### Back-end Flask API server
 
-You can install the Flask API requirements with:
+You can install the Flask API requirements in a virtual environment with:
 
 ```
+python -m venv sweettweet_venv
+source sweettweet_venv/bin/activate
 pip install -r backend/requirements.txt
 ```
 
