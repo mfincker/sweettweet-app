@@ -23,7 +23,7 @@ import os.path
 api = Blueprint('api', __name__)
 
 # Get initial live glucose data
-@api.route('/glucose-data/', methods = ['GET'])
+@api.route('/get-glucose/', methods = ['GET'])
 
 def api_getGlucoseData():
     '''
@@ -42,7 +42,7 @@ def api_getGlucoseData():
 
 
 # Update and model glucose data
-@api.route('/update-glucose/', methods = ['POST'])
+@api.route('/forecast-glucose/', methods = ['POST'])
 
 def api_updateGlucose():
     '''
@@ -77,6 +77,8 @@ def api_updateGlucose():
                     'userInfo' : user_info,
                     'alarm' : alarm,
                     'sent_alarm' : sent_alarm})
+
+    print(resp)
     resp.status_code = 200
 
     return resp
